@@ -437,9 +437,10 @@ body.scrolling::after {
    ================================ */
 .carousel-container {
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     width: 100%;
     max-width: 100%;
+    padding: 20px 0;
 }
 
 .carousel-nav {
@@ -458,12 +459,13 @@ body.scrolling::after {
 /* Carousel Mode - 3D Rotating */
 .grid.carousel-mode {
     display: block;
-    height: 420px;
+    height: 500px;
     position: relative;
     perspective: 800px;
-    margin: 60px auto;
-    overflow: hidden;
+    margin: 10px auto;
+    overflow: visible;
     max-width: 100%;
+    padding: 0 0 40px 0;
 }
 
 .carousel-3d {
@@ -1019,15 +1021,18 @@ body.scrolling::after {
     }
 
     .grid.carousel-mode {
-        height: 380px;
+        height: 450px;
         perspective: 500px;
-        overflow: hidden;
+        overflow: visible;
         max-width: 100%;
+        padding: 0 0 40px 0;
+        margin: 5px auto;
     }
 
     .carousel-container {
-        overflow: hidden;
+        overflow: visible;
         max-width: 100%;
+        padding: 20px 0;
     }
 
     .grid.carousel-mode .card {
@@ -1103,15 +1108,18 @@ body.scrolling::after {
     }
 
     .grid.carousel-mode {
-        height: 350px;
+        height: 420px;
         perspective: 400px;
-        overflow: hidden;
+        overflow: visible;
         max-width: 100%;
+        padding: 0 0 30px 0;
+        margin: 5px auto;
     }
 
     .carousel-container {
-        overflow: hidden;
+        overflow: visible;
         max-width: 100%;
+        padding: 15px 0;
     }
 
     .wishlist-section {
