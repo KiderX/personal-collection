@@ -1,0 +1,8 @@
+To test your website, add image files here:
+- spiderman.png
+- ironman.jpg
+- darthvader.png
+- batman.png
+- grogu.png
+
+Or update script.js to set all images to "" (empty) to show placeholders
