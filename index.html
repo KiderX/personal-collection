@@ -1,48 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KiderX's figures collection!</title>
-  <link rel="stylesheet" href="styles.css">
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Collection | Funko Pops & Action Figures</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-  <header>
-    <nav class="navbar">
-      <div class="logo">
-        <p>KiderX's figures collection!</p>
-      </div>
-    </nav>
-  </header>
+    <!-- Parallax Background -->
+    <div class="parallax-bg"></div>
+    <div class="floating-particles" id="particles"></div>
 
-  <!-- Image Grid Section -->
-  <div class="image-grid">
-    <div class="card" style="width: 18rem;">
-      <img src="images/923/box.png" class="card-img-top default" alt="923">
-      <img src="images/923/no_box.png" class="card-img-top hover" alt="923">
+    <!-- Wishlist Badge -->
+    <div class="wishlist-badge" id="wishlistBadge">
+        <span class="icon">⭐</span>
+        <span class="count" id="wishlistCount">0</span>
     </div>
 
-    <div class="card" style="width: 18rem;">
-      <img src="images/1471/box.png" class="card-img-top default" alt="923">
-      <img src="images/1471/no_box.png" class="card-img-top hover" alt="923">
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="title">
+                <span class="title-icon">🎮</span>
+                Private Collection
+            </h1>
+            <p class="subtitle">Funko Pops & Action Figures</p>
+            <p class="author">by KiderX</p>
+        </header>
+
+        <!-- Search Bar -->
+        <div class="search-container">
+            <input
+                type="text"
+                id="searchInput"
+                class="search-input"
+                placeholder="Search by character name..."
+                autocomplete="off"
+            >
+            <div class="search-icon">🔍</div>
+        </div>
+
+        <!-- Filters -->
+        <div class="controls scroll-reveal">
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">
+                    All
+                </button>
+                <button class="filter-btn" data-filter="funko">
+                    Funko Pops
+                </button>
+                <button class="filter-btn" data-filter="figure">
+                    Action Figures
+                </button>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats scroll-reveal">
+            <div class="stat-card stat-card-value">
+                <span class="stat-icon">💎</span>
+                <span class="stat-number stat-value" id="collectionValue">$0</span>
+                <span class="stat-label">Collection Value</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" id="totalCount">0</span>
+                <span class="stat-label">Total Items</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" id="displayCount">0</span>
+                <span class="stat-label">Showing</span>
+            </div>
+        </div>
+
+        <!-- Collection Section -->
+        <div class="section-header scroll-reveal">
+            <h2 class="section-title">My Collection</h2>
+        </div>
+
+        <!-- Collection Grid -->
+        <div class="carousel-container">
+            <button class="carousel-nav prev" id="carouselPrev" style="display: none;">‹</button>
+            <div id="collectionGrid" class="grid">
+                <!-- Cards will be inserted here by JavaScript -->
+            </div>
+            <button class="carousel-nav next" id="carouselNext" style="display: none;">›</button>
+        </div>
+
+        <!-- No Results Message -->
+        <div id="noResults" class="no-results" style="display: none;">
+            <div class="no-results-icon">🔍</div>
+            <p>No items found matching your search</p>
+        </div>
+
+        <!-- Wishlist Section -->
+        <div id="wishlistSection" class="wishlist-section" style="display: none;">
+            <div class="section-header">
+                <h2 class="section-title"><span class="wishlist-star">⭐</span> My Wishlist</h2>
+            </div>
+            <div id="wishlistGrid" class="grid">
+                <!-- Wishlist cards will be inserted here -->
+            </div>
+            <div id="emptyWishlist" class="no-results" style="display: none;">
+                <div class="no-results-icon">⭐</div>
+                <p>Your wishlist is empty. Click ☆ on items to add them!</p>
+            </div>
+        </div>
     </div>
 
-    <div class="card" style="width: 18rem;">
-      <img src="images/1474/box.png" class="card-img-top default" alt="923">
-      <img src="images/1474/no_box.png" class="card-img-top hover" alt="923">
-    </div>
-
-    <div class="card" style="width: 18rem;">
-      <img src="images/1476/box.png" class="card-img-top default" alt="923">
-      <img src="images/1476/no_box.png" class="card-img-top hover" alt="923">
-    </div>
-  </div>
-
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
-
 </html>

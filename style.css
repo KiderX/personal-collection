@@ -1,0 +1,962 @@
+/* ================================
+   VARIABLES & RESET
+   ================================ */
+:root {
+    --bg-primary: #0a0e27;
+    --bg-secondary: #141b3d;
+    --bg-card: #1a2347;
+    --accent-primary: #00d9ff;
+    --accent-secondary: #b030ff;
+    --text-primary: #ffffff;
+    --text-secondary: #a8b3cf;
+    --border-color: #2a3b5f;
+    --shadow-glow: 0 0 20px rgba(0, 217, 255, 0.3);
+    --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    padding: 20px;
+    overflow-x: hidden;
+    position: relative;
+    transition: background 1s ease;
+}
+
+/* ================================
+   PARALLAX BACKGROUND
+   ================================ */
+.parallax-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--bg-primary) 0%, #1a1f3a 100%);
+    z-index: -4;
+}
+
+.floating-particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.particle {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+/* Particle animation */
+@keyframes float {
+    0% {
+        transform: translateY(0) translateX(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.6;
+    }
+    90% {
+        opacity: 0.6;
+    }
+    100% {
+        transform: translateY(-100vh) translateX(var(--drift));
+        opacity: 0;
+    }
+}
+
+/* ================================
+   CONTAINER & HEADER
+   ================================ */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 40px;
+    animation: fadeInDown 0.8s ease;
+    background: rgba(20, 27, 61, 0.4);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    padding: 40px 20px;
+    border-radius: 25px;
+    border: 1px solid rgba(0, 217, 255, 0.2);
+}
+
+.title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 10px;
+    display: block;
+    text-align: center;
+}
+
+.title-icon {
+    font-size: 3rem;
+    filter: drop-shadow(0 0 15px var(--accent-primary)) drop-shadow(0 0 25px rgba(0, 217, 255, 0.5));
+    display: inline-block;
+    margin-right: 10px;
+    background: none;
+    -webkit-text-fill-color: initial;
+    animation: iconGlow 3s ease-in-out infinite;
+}
+
+@keyframes iconGlow {
+    0%, 100% {
+        filter: drop-shadow(0 0 15px var(--accent-primary)) drop-shadow(0 0 25px rgba(0, 217, 255, 0.5));
+    }
+    50% {
+        filter: drop-shadow(0 0 25px var(--accent-primary)) drop-shadow(0 0 35px rgba(0, 217, 255, 0.8));
+    }
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-align: center;
+    display: block;
+    margin-bottom: 15px;
+}
+
+.author {
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 1px;
+    font-style: italic;
+    opacity: 0.9;
+}
+
+/* ================================
+   SEARCH BAR
+   ================================ */
+.search-container {
+    position: relative;
+    max-width: 600px;
+    margin: 0 auto 40px;
+    animation: fadeInUp 0.8s ease;
+}
+
+.search-input {
+    width: 100%;
+    padding: 18px 60px 18px 24px;
+    font-size: 1.1rem;
+    background: rgba(26, 35, 71, 0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 2px solid rgba(42, 59, 95, 0.6);
+    border-radius: 50px;
+    color: var(--text-primary);
+    outline: none;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-card);
+}
+
+.search-input:focus {
+    border-color: var(--accent-primary);
+    box-shadow: var(--shadow-glow);
+}
+
+.search-input::placeholder {
+    color: var(--text-secondary);
+}
+
+.search-icon {
+    position: absolute;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.5rem;
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+/* ================================
+   CONTROLS (FILTERS & VIEW TOGGLE)
+   ================================ */
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 40px;
+    gap: 30px;
+    flex-wrap: wrap;
+    animation: fadeInUp 0.9s ease;
+}
+
+.filter-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.view-buttons {
+    display: flex;
+    gap: 10px;
+    border-left: 2px solid var(--border-color);
+    padding-left: 30px;
+}
+
+.filter-btn,
+.view-btn {
+    padding: 12px 24px;
+    background: rgba(26, 35, 71, 0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 2px solid rgba(42, 59, 95, 0.6);
+    border-radius: 25px;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.view-btn {
+    padding: 12px 20px;
+    font-size: 1.2rem;
+    border-radius: 12px;
+}
+
+.filter-btn:hover,
+.view-btn:hover {
+    border-color: var(--accent-primary);
+    color: var(--text-primary);
+    transform: translateY(-2px);
+}
+
+.filter-btn.active,
+.view-btn.active {
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    border-color: transparent;
+    color: var(--text-primary);
+    box-shadow: var(--shadow-glow);
+}
+
+/* ================================
+   STATS
+   ================================ */
+.stats {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+    animation: fadeIn 1s ease;
+}
+
+.stat-card {
+    background: rgba(26, 35, 71, 0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 20px 40px;
+    border-radius: 15px;
+    border: 1px solid rgba(0, 217, 255, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    box-shadow: var(--shadow-card);
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    border-color: var(--accent-primary);
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 10px 30px rgba(0, 217, 255, 0.4);
+    box-shadow: var(--shadow-glow);
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Collection Value Card - Special Styling */
+.stat-card-value {
+    background: linear-gradient(135deg, rgba(0, 217, 255, 0.15), rgba(176, 48, 255, 0.15));
+    border: 2px solid var(--accent-primary);
+    box-shadow: 0 0 30px rgba(0, 217, 255, 0.3),
+                0 0 50px rgba(176, 48, 255, 0.2);
+    animation: valuePulse 3s ease-in-out infinite;
+}
+
+.stat-card-value:hover {
+    transform: translateY(-8px) scale(1.08);
+    box-shadow: 0 15px 40px rgba(0, 217, 255, 0.6),
+                0 0 60px rgba(176, 48, 255, 0.4);
+}
+
+.stat-icon {
+    font-size: 2rem;
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.8));
+    animation: iconFloat 2s ease-in-out infinite;
+}
+
+.stat-value {
+    font-size: 2.8rem !important;
+    font-weight: 800;
+}
+
+@keyframes valuePulse {
+    0%, 100% {
+        box-shadow: 0 0 30px rgba(0, 217, 255, 0.3),
+                    0 0 50px rgba(176, 48, 255, 0.2);
+    }
+    50% {
+        box-shadow: 0 0 40px rgba(0, 217, 255, 0.5),
+                    0 0 70px rgba(176, 48, 255, 0.3);
+    }
+}
+
+@keyframes iconFloat {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+/* ================================
+   SCROLL EFFECTS
+   ================================ */
+.scroll-reveal {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.scroll-reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Grid pattern overlay on scroll */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        linear-gradient(rgba(0, 217, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 217, 255, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+    z-index: -1;
+}
+
+body.scrolling::before {
+    opacity: 1;
+}
+
+/* Vignette effect on scroll */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, transparent 0%, rgba(10, 14, 39, 0.3) 100%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+    z-index: -1;
+}
+
+body.scrolling::after {
+    opacity: 1;
+}
+
+/* ================================
+   GRID & CARDS
+   ================================ */
+.carousel-container {
+    position: relative;
+}
+
+.carousel-nav {
+    display: none;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 30px;
+    animation: fadeIn 1s ease;
+    transition: all 0.5s ease;
+    perspective: 1000px;
+}
+
+/* Carousel Mode - 3D Rotating */
+.grid.carousel-mode {
+    display: block;
+    height: 420px;
+    position: relative;
+    perspective: 800px;
+    margin: 60px auto;
+    overflow: visible;
+}
+
+.carousel-3d {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    transform-style: preserve-3d;
+    transition: transform 0.1s ease-out;
+    cursor: grab;
+}
+
+.carousel-3d:active {
+    cursor: grabbing;
+}
+
+.grid.carousel-mode .card {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 180px;
+    height: auto;
+    margin-left: -90px;
+    margin-top: -150px;
+    transform-style: preserve-3d;
+    backface-visibility: visible;
+    animation: none !important;
+    opacity: 0.95 !important;
+}
+
+/* Make sure all cards are visible in carousel */
+.carousel-3d .card {
+    opacity: 0.95 !important;
+    pointer-events: auto;
+}
+
+.card {
+    background: rgba(26, 35, 71, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(42, 59, 95, 0.5);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: var(--shadow-card);
+    cursor: pointer;
+    position: relative;
+    transform-style: preserve-3d;
+}
+
+/* Only animate grid cards, not carousel */
+.grid:not(.carousel-mode) .card {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: cardFadeIn 0.6s ease forwards;
+}
+
+@keyframes cardFadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card:hover {
+    transform: translateY(-20px) rotateX(5deg) scale(1.05);
+    border-color: var(--accent-primary);
+    box-shadow: 0 20px 60px rgba(0, 217, 255, 0.5),
+                0 10px 40px rgba(176, 48, 255, 0.4),
+                0 0 30px rgba(0, 217, 255, 0.3);
+}
+
+/* Glitch effect on scroll for cards */
+@keyframes glitchPulse {
+    0%, 100% {
+        border-color: var(--border-color);
+    }
+    50% {
+        border-color: var(--accent-primary);
+        box-shadow: 0 0 10px rgba(0, 217, 255, 0.3);
+    }
+}
+
+.card.scroll-active {
+    animation: glitchPulse 2s ease-in-out;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.card:hover::before {
+    opacity: 1;
+}
+
+.card-image-container {
+    width: 100%;
+    aspect-ratio: 1;
+    overflow: hidden;
+    background: linear-gradient(135deg, #1a2347 0%, #2a3b5f 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.card:hover .card-image {
+    transform: scale(1.15);
+}
+
+.card-image.placeholder {
+    width: 60%;
+    height: 60%;
+    object-fit: contain;
+    opacity: 0.3;
+}
+
+.card-content {
+    padding: 20px;
+    text-align: center;
+}
+
+.card-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+.card-type {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.card-type.funko {
+    color: var(--accent-primary);
+}
+
+.card-type.figure {
+    color: var(--accent-secondary);
+}
+
+.card-type.funko {
+    color: var(--accent-primary);
+}
+
+.card-type.figure {
+    color: var(--accent-secondary);
+}
+
+.wishlist-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(26, 35, 71, 0.9);
+    border: 2px solid var(--border-color);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 5;
+}
+
+.wishlist-btn:hover {
+    border-color: var(--accent-secondary);
+    transform: scale(1.15);
+    box-shadow: 0 0 15px rgba(176, 48, 255, 0.5);
+}
+
+.wishlist-btn.active {
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    border-color: transparent;
+}
+
+.wishlist-badge {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(26, 35, 71, 0.95);
+    backdrop-filter: blur(10px);
+    border: 2px solid var(--accent-secondary);
+    border-radius: 25px;
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 9999;
+    box-shadow: 0 4px 20px rgba(176, 48, 255, 0.4);
+}
+
+.wishlist-badge:hover {
+    border-color: var(--accent-primary);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 30px rgba(176, 48, 255, 0.6),
+                0 0 30px rgba(0, 217, 255, 0.4);
+}
+
+.wishlist-badge .icon {
+    font-size: 1.5rem;
+    filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.8));
+    animation: starPulse 2s ease-in-out infinite;
+}
+
+@keyframes starPulse {
+    0%, 100% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.8));
+    }
+    50% {
+        transform: scale(1.1);
+        filter: drop-shadow(0 0 15px rgba(255, 215, 0, 1));
+    }
+}
+
+.wishlist-badge .count {
+    font-size: 1.1rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* ================================
+   SECTION HEADERS
+   ================================ */
+.section-header {
+    margin: 60px 0 30px;
+    text-align: center;
+}
+
+.section-title {
+    font-size: 2rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: inline-block;
+}
+
+/* Glowing star effect in wishlist section title */
+.wishlist-star {
+    font-size: 1.8rem;
+    filter: drop-shadow(0 0 15px rgba(0, 217, 255, 0.8))
+            drop-shadow(0 0 25px rgba(0, 217, 255, 0.6))
+            drop-shadow(0 0 5px rgba(255, 215, 0, 0.9));
+    animation: wishlistStarPulse 3s ease-in-out infinite;
+    display: inline-block;
+    -webkit-text-fill-color: initial;
+    background: none;
+}
+
+@keyframes wishlistStarPulse {
+    0%, 100% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 15px rgba(0, 217, 255, 0.8))
+                drop-shadow(0 0 25px rgba(0, 217, 255, 0.6));
+    }
+    50% {
+        transform: scale(1.15);
+        filter: drop-shadow(0 0 25px rgba(0, 217, 255, 1))
+                drop-shadow(0 0 35px rgba(0, 217, 255, 0.8));
+    }
+}
+
+.wishlist-section {
+    margin-top: 80px;
+    padding-top: 40px;
+    border-top: 2px solid var(--border-color);
+}
+
+/* ================================
+   NO RESULTS
+   ================================ */
+.no-results {
+    text-align: center;
+    padding: 80px 20px;
+    animation: fadeIn 0.5s ease;
+}
+
+.no-results-icon {
+    font-size: 4rem;
+    opacity: 0.3;
+    margin-bottom: 20px;
+}
+
+.no-results p {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+}
+
+/* ================================
+   ANIMATIONS
+   ================================ */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ================================
+   RESPONSIVE DESIGN
+   ================================ */
+@media (max-width: 768px) {
+    .title {
+        font-size: 2.5rem;
+    }
+
+    .title-icon {
+        font-size: 2rem;
+    }
+
+    .subtitle {
+        font-size: 1rem;
+    }
+
+    .controls {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+    }
+
+    .filter-buttons {
+        justify-content: center;
+        width: 100%;
+    }
+
+    .view-buttons {
+        justify-content: center;
+        width: 100%;
+        border-left: none;
+        border-top: 2px solid var(--border-color);
+        padding-left: 0;
+        padding-top: 15px;
+    }
+
+    .filter-btn {
+        flex: 1;
+        padding: 10px 16px;
+        font-size: 0.85rem;
+    }
+
+    .grid {
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+        gap: 15px;
+    }
+
+    .card {
+        font-size: 0.9rem;
+    }
+
+    .card-name {
+        font-size: 0.9rem;
+    }
+
+    .card-type {
+        font-size: 0.75rem;
+    }
+
+    .card-content {
+        padding: 12px;
+    }
+
+    .wishlist-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 1.1rem;
+        top: 8px;
+        right: 8px;
+    }
+
+    .wishlist-badge {
+        top: 15px;
+        right: 15px;
+        padding: 10px 18px;
+    }
+
+    .wishlist-badge .icon {
+        font-size: 1.3rem;
+    }
+
+    .wishlist-badge .count {
+        font-size: 1rem;
+    }
+
+    .grid.carousel-mode {
+        height: 380px;
+        perspective: 500px;
+    }
+
+    .grid.carousel-mode .card {
+        width: 160px;
+        margin-left: -80px;
+        margin-top: -130px;
+    }
+
+
+    .search-input {
+        font-size: 1rem;
+        padding: 15px 50px 15px 20px;
+    }
+
+    .stat-card {
+        padding: 15px 30px;
+    }
+
+    .stat-number {
+        font-size: 2rem;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 15px;
+    }
+
+    .title {
+        font-size: 2rem;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .grid {
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+        gap: 12px;
+    }
+
+    .card-name {
+        font-size: 0.8rem;
+    }
+
+    .card-type {
+        font-size: 0.7rem;
+    }
+
+    .card-content {
+        padding: 10px;
+    }
+
+    .wishlist-btn {
+        width: 30px;
+        height: 30px;
+        font-size: 1rem;
+        top: 6px;
+        right: 6px;
+    }
+
+    .stats {
+        gap: 15px;
+    }
+
+    .stat-card {
+        padding: 12px 24px;
+    }
+
+    .filter-btn {
+        padding: 8px 12px;
+        font-size: 0.8rem;
+    }
+
+    .section-title {
+        font-size: 1.3rem;
+    }
+}
