@@ -791,6 +791,10 @@ body.scrolling::after {
     text-align: center;
 }
 
+.wishlist-section .section-header {
+    margin: 15px 0 30px;
+}
+
 .section-title {
     font-size: 2rem;
     font-weight: 700;
@@ -827,9 +831,8 @@ body.scrolling::after {
 }
 
 .wishlist-section {
-    margin-top: 80px;
-    padding-top: 40px;
-    border-top: 2px solid var(--border-color);
+    margin-top: 20px;
+    padding-top: 0;
     overflow: hidden;
     max-width: 100%;
 }
