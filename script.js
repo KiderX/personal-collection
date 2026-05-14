@@ -441,10 +441,10 @@ function init3DCarouselWishlist(items) {
     const itemCount = items.length;
     const angleStep = 360 / itemCount;
 
-    // Adjust radius based on screen size
+    // Adjust radius based on screen size - increased for better visibility
     const isMobile = window.innerWidth <= 768;
-    const baseRadius = isMobile ? 15 : 22;
-    const minRadius = isMobile ? 120 : 200;
+    const baseRadius = isMobile ? 20 : 30;
+    const minRadius = isMobile ? 150 : 250;
     const radius = Math.max(minRadius, itemCount * baseRadius);
 
     // Create cards in 3D circle
@@ -460,9 +460,24 @@ function init3DCarouselWishlist(items) {
         container.appendChild(card);
     });
 
-    // Mouse/Touch events for grabbing
-    container.addEventListener('mousedown', startDragWishlist);
-    container.addEventListener('touchstart', startDragWishlist);
+    // Mouse/Touch events for grabbing - only on container, not on images
+    container.addEventListener('mousedown', (e) => {
+        // Don't start drag if clicking on an image
+        if (e.target.classList.contains('card-image') ||
+            e.target.classList.contains('card-image-container')) {
+            return;
+        }
+        startDragWishlist(e);
+    });
+
+    container.addEventListener('touchstart', (e) => {
+        // Don't start drag if touching an image
+        if (e.target.classList.contains('card-image') ||
+            e.target.classList.contains('card-image-container')) {
+            return;
+        }
+        startDragWishlist(e);
+    });
 
     // Start auto-rotation for wishlist
     animateWishlistCarousel(container);
@@ -513,11 +528,13 @@ function animateWishlistCarousel(container) {
     if (!container || !document.contains(container)) return;
 
     if (!wishlistDragging) {
-        wishlistAngle += 0.2;
-        velocity *= 0.95;
+        // Smooth, slower auto-rotation
+        wishlistAngle += 0.15;
+        velocity *= 0.97;
         wishlistAngle += velocity;
     }
 
+    // Simple rotation without extra movement
     container.style.transform = `rotateY(${wishlistAngle}deg)`;
     wishlistAnimFrame = requestAnimationFrame(() => animateWishlistCarousel(container));
 }
