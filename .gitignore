@@ -5,6 +5,8 @@ Thumbs.db
 # Editor Files
 .vscode/
 .idea/
+.claude/
+CLAUDE.md
 *.swp
 *.swo
 

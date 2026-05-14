@@ -137,6 +137,11 @@ const noResults = document.getElementById('noResults');
 const totalCount = document.getElementById('totalCount');
 const displayCount = document.getElementById('displayCount');
 const filterButtons = document.querySelectorAll('.filter-btn');
+const imageModal = document.getElementById('imageModal');
+const modalImage = document.getElementById('modalImage');
+const modalName = document.getElementById('modalName');
+const modalType = document.getElementById('modalType');
+const modalClose = document.getElementById('modalClose');
 
 // ================================
 // STATE
@@ -184,6 +189,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Scroll effects
     initScrollEffects();
+
+    // Modal close events
+    modalClose.addEventListener('click', closeModal);
+    imageModal.addEventListener('click', (e) => {
+        if (e.target === imageModal) {
+            closeModal();
+        }
+    });
+
+    // ESC key to close modal
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && imageModal.classList.contains('active')) {
+            closeModal();
+        }
+    });
 });
 
 // ================================
@@ -234,6 +254,13 @@ function createCard(item, index, showWishlistBtn = false) {
             <div class="card-type ${item.type}">${item.type === 'funko' ? 'Funko Pop' : 'Action Figure'}</div>
         </div>
     `;
+
+    // Add click event to open modal
+    const imageContainer = card.querySelector('.card-image-container');
+    imageContainer.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openModal(item, imageSrc);
+    });
 
     return card;
 }
@@ -496,81 +523,18 @@ function animateWishlistCarousel(container) {
 }
 
 // ================================
-// SCROLL EFFECTS
+// SCROLL EFFECTS - OPTIMIZED
 // ================================
 function initScrollEffects() {
-    let scrollTimeout;
-    let lastScrollTop = 0;
-
-    window.addEventListener('scroll', () => {
-        const scrollTop = window.pageYOffset;
-
-        // Dynamic color transition based on scroll
-        const scrollPercent = Math.min(scrollTop / (document.body.scrollHeight - window.innerHeight), 1);
-        const hue1 = 190 + (scrollPercent * 30); // Cyan to more blue
-        const hue2 = 280 - (scrollPercent * 30); // Purple to more magenta
-        document.documentElement.style.setProperty('--accent-primary', `hsl(${hue1}, 100%, 50%)`);
-        document.documentElement.style.setProperty('--accent-secondary', `hsl(${hue2}, 100%, 65%)`);
-
-        // Add scrolling class for scan line effect
-        document.body.classList.add('scrolling');
-
-        // Clear previous timeout
-        clearTimeout(scrollTimeout);
-
-        // Remove scrolling class after scroll ends
-        scrollTimeout = setTimeout(() => {
-            document.body.classList.remove('scrolling');
-        }, 150);
-
-        // Reveal elements on scroll
-        revealOnScroll();
-
-        // Parallax particles
-        const scrollDelta = scrollTop - lastScrollTop;
-        lastScrollTop = scrollTop;
-
-        // Move particles based on scroll
-        const particles = document.querySelectorAll('.particle');
-        particles.forEach((particle, index) => {
-            const speed = (index % 3 + 1) * 0.5;
-            const currentTransform = particle.style.transform || 'translateY(0)';
-            const currentY = parseFloat(currentTransform.match(/translateY\(([^)]+)/) || [0, 0])[1];
-            particle.style.transform = `translateY(${currentY - scrollDelta * speed}px)`;
-        });
+    // Make elements visible immediately (no scroll animation)
+    const reveals = document.querySelectorAll('.section-header, .stats, .controls');
+    reveals.forEach(element => {
+        element.classList.add('scroll-reveal', 'visible');
     });
-
-    // Initial reveal check
-    revealOnScroll();
 }
 
 function revealOnScroll() {
-    const reveals = document.querySelectorAll('.section-header, .stats, .controls');
-
-    reveals.forEach(element => {
-        const elementTop = element.getBoundingClientRect().top;
-        const windowHeight = window.innerHeight;
-
-        if (elementTop < windowHeight - 100) {
-            element.classList.add('scroll-reveal', 'visible');
-        }
-    });
-
-    // Add subtle pulse to cards when they come into view
-    const cards = document.querySelectorAll('.card:not(.carousel-mode .card)');
-    cards.forEach((card, index) => {
-        const cardTop = card.getBoundingClientRect().top;
-        const windowHeight = window.innerHeight;
-
-        if (cardTop < windowHeight - 50 && cardTop > 0) {
-            setTimeout(() => {
-                card.classList.add('scroll-active');
-                setTimeout(() => {
-                    card.classList.remove('scroll-active');
-                }, 2000);
-            }, index * 50);
-        }
-    });
+    // Disabled for performance
 }
 
 // ================================
@@ -578,4 +542,30 @@ function revealOnScroll() {
 // ================================
 function initParallax() {
     // Particles handle the visual effect now
+}
+
+// ================================
+// IMAGE MODAL
+// ================================
+function openModal(item, imageSrc) {
+    modalImage.src = imageSrc;
+    modalImage.alt = item.name;
+    modalName.textContent = item.name;
+    modalType.textContent = item.type === 'funko' ? 'Funko Pop' : 'Action Figure';
+    modalType.className = `modal-type ${item.type}`;
+
+    imageModal.classList.add('active');
+    document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+}
+
+function closeModal() {
+    imageModal.classList.remove('active');
+    document.body.style.overflow = ''; // Restore scrolling
+
+    // Clear image after animation
+    setTimeout(() => {
+        if (!imageModal.classList.contains('active')) {
+            modalImage.src = '';
+        }
+    }, 300);
 }
